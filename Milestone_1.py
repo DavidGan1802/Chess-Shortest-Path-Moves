@@ -22,7 +22,7 @@ class Chess(object):
             
             moves.append((self.start_x, self.start_y + 1))
             
-            print(moves)
+            
         
         elif self.piece == "knight":
             
@@ -45,7 +45,7 @@ class Chess(object):
                 if 0 <= x < self.size_x and 0 <= y < self.size_y:
                     moves.append((x,y))
             
-            print(moves)
+            
             
         elif self.piece == "bishop":
 
@@ -65,7 +65,7 @@ class Chess(object):
                     x += dx
                     y += dy
             
-            print(moves)
+            
 
         elif self.piece == "rook":
             
@@ -85,7 +85,7 @@ class Chess(object):
                     x += dx
                     y += dy
 
-            print(moves)
+    
 
         elif self.piece == "queen":
             
@@ -93,7 +93,7 @@ class Chess(object):
                 (1, 1), #up-right
                 (1, 0), #right
                 (-1, -1), #down-right
-                (0, -1) #down
+                (0, -1), #down
                 (1, -1), #down-left
                 (-1, 0), #left
                 (-1, 1), #up-left
@@ -110,7 +110,7 @@ class Chess(object):
                     x += dx
                     y += dy
             
-            print(moves)            
+                       
             
         elif self.piece == "king":
             
@@ -118,7 +118,7 @@ class Chess(object):
                 (1, 1), #up-right
                 (1, 0), #right
                 (-1, -1), #down-right
-                (0, -1) #down
+                (0, -1), #down
                 (1, -1), #down-left
                 (-1, 0), #left
                 (-1, 1), #up-left
@@ -132,16 +132,55 @@ class Chess(object):
                 
                 if 0 <= x < self.size_x and 0 <= y < self.size_y:
                     moves.append((x,y))
-            
-            print(moves)     
+          
+        return moves  
+                 
 
-    def BFS_shortest_path(self):
 
-        return 0
+    def BFS_min_moves_board(self):
+        # distance[y][x] = minimum moves to reach (x, y)
+        distance = [
+            [-1 for _ in range(self.size_x)]
+            for _ in range(self.size_y)
+        ]
 
-    def print_board(self):
-        
-        return 0 
+        # BFS queue
+        queue = deque()
+
+        # start position
+        start = (self.start_x, self.start_y)
+        queue.append(start)
+        distance[self.start_y][self.start_x] = 0
+
+        while queue:
+            x, y = queue.popleft()
+
+            # generate moves FROM (x, y)
+            self.start_x, self.start_y = x, y
+            moves = self.valid_moves()
+
+            for nx, ny in moves:
+
+                # 1. Make sure the square is inside the board
+                if 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+
+                    # 2. Check if we haven't visited it yet
+                    if distance[ny][nx] == -1:
+                        distance[ny][nx] = distance[y][x] + 1
+                        queue.append((nx, ny))
+
+
+        return distance
+
+    def print_board(self, distance):
+        for y in reversed(range(self.size_y)):
+            for x in range(self.size_x):
+                if distance[y][x] == -1:
+                    print(" . ", end="")
+                else:
+                    print(f"{distance[y][x]:2d} ", end="")
+            print()
+
     
     def reset_board(self):
         
@@ -155,8 +194,9 @@ if __name__ == "__main__":
     #start_y = int(input("Entrer the y_coordinate of the starting position:").strip())
     #piece = str(input("Enter the name of the piece:").strip()) 
     
-    c = Chess(8, 8, 3, 4, "king")
+    c = Chess(8, 8, 0, 0, "knight")
     
-    c.valid_moves()
+    
+    c.print_board(c.BFS_min_moves_board())
     
     
