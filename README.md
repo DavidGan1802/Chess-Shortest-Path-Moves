@@ -4,6 +4,4 @@ Given the initial starting position of a given piece, you will be asked to deter
 minimum number of moves needed to reach any position in the tile. 
 
 
-Credits: Marcus Joseph Reyes (EEE Professor)
-
-       : Ferdinand John Briones (EEE Professor)
+Credits: Marcus Joseph Reyes and Ferdinand John Briones (EEE Professors)
