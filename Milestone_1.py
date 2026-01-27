@@ -1,4 +1,5 @@
 #Reference: https://www.geeksforgeeks.org/dsa/minimum-steps-reach-target-knight/
+#           https://www.geeksforgeeks.org/dsa/breadth-first-search-or-bfs-for-a-graph/
 
 from collections import deque
 
@@ -9,9 +10,13 @@ class Chess(object):
         self.size_y = size_y
         self.start_x = start_x
         self.start_y = start_y
-        self.piece = piece 
+        self.piece = piece
         
-    def valid_moves(self):
+    def valid_board(self, x, y):
+        
+        return 0 <= x < self.size_x and 0 <= y < self.size_y
+        
+    def valid_moves(self, x, y):
         
         moves = []
         
@@ -20,9 +25,9 @@ class Chess(object):
         #disregard pawn promotion in this milestone
         if self.piece == "pawn":
             
-            moves.append((self.start_x, self.start_y + 1))
-            
-            
+            if 0 <= y + 1 < self.size_y:
+                
+                moves.append((x, y + 1))          
         
         elif self.piece == "knight":
             
@@ -39,13 +44,11 @@ class Chess(object):
 
             for dx, dy in directions:
                 
-                x = self.start_x + dx
-                y = self.start_y + dy
+                nx = x + dx
+                ny = y + dy
                 
-                if 0 <= x < self.size_x and 0 <= y < self.size_y:
-                    moves.append((x,y))
-            
-            
+                if 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    moves.append((nx,ny))           
             
         elif self.piece == "bishop":
 
@@ -57,15 +60,13 @@ class Chess(object):
             ]
             
             for dx, dy in directions:
-                x = self.start_x + dx
-                y = self.start_y + dy
+                nx = x + dx
+                ny = y + dy
                 
-                while 0 <= x < self.size_x and 0 <= y < self.size_y:
-                    moves.append((x, y))
-                    x += dx
-                    y += dy
-            
-            
+                while 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    moves.append((nx, ny))
+                    nx += dx
+                    ny += dy           
 
         elif self.piece == "rook":
             
@@ -77,15 +78,13 @@ class Chess(object):
             ]
             
             for dx, dy in directions:
-                x = self.start_x + dx
-                y = self.start_y + dy
+                nx = x + dx
+                ny = y + dy
                 
-                while 0 <= x < self.size_x and 0 <= y < self.size_y:
-                    moves.append((x, y))
-                    x += dx
-                    y += dy
-
-    
+                while 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    moves.append((nx, ny))
+                    nx += dx
+                    ny += dy
 
         elif self.piece == "queen":
             
@@ -102,15 +101,13 @@ class Chess(object):
             ]
             
             for dx, dy in directions:
-                x = self.start_x + dx
-                y = self.start_y + dy
+                nx = x + dx
+                ny = y + dy
                 
-                while 0 <= x < self.size_x and 0 <= y < self.size_y:
-                    moves.append((x, y))
-                    x += dx
-                    y += dy
-            
-                       
+                while 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    moves.append((nx, ny))
+                    nx += dx
+                    ny += dy                  
             
         elif self.piece == "king":
             
@@ -127,60 +124,51 @@ class Chess(object):
             
             for dx, dy in directions:
                 
-                x = self.start_x + dx
-                y = self.start_y + dy
+                nx = x + dx
+                ny = y + dy
                 
-                if 0 <= x < self.size_x and 0 <= y < self.size_y:
-                    moves.append((x,y))
+                if 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    moves.append((nx,ny))
           
         return moves  
                  
-
-
-    def BFS_min_moves_board(self):
-        # distance[y][x] = minimum moves to reach (x, y)
-        distance = [
-            [-1 for _ in range(self.size_x)]
-            for _ in range(self.size_y)
-        ]
-
-        # BFS queue
-        queue = deque()
-
-        # start position
+    def BFS_chess_board(self):
+        
+        #make a 2d array that represents the chess board
+        #make all the squares -1 to mark it as unvisited
+        board = [[-1 for i in range(self.size_x)] for i in range(self.size_y)]
+        
+        queue = []
+        
         start = (self.start_x, self.start_y)
-        queue.append(start)
-        distance[self.start_y][self.start_x] = 0
-
+        queue.append((start))
+        board[self.start_y][self.start_x] = 0
+        
         while queue:
-            x, y = queue.popleft()
-
-            # generate moves FROM (x, y)
-            self.start_x, self.start_y = x, y
-            moves = self.valid_moves()
-
+            
+            x, y = queue.pop(0)
+            moves = self.valid_moves(x,y)
+            
             for nx, ny in moves:
-
-                # 1. Make sure the square is inside the board
-                if 0 <= nx < self.size_x and 0 <= ny < self.size_y:
-
-                    # 2. Check if we haven't visited it yet
-                    if distance[ny][nx] == -1:
-                        distance[ny][nx] = distance[y][x] + 1
-                        queue.append((nx, ny))
-
-
-        return distance
-
-    def print_board(self, distance):
+            
+                
+                    
+                if board[ny][nx] == -1:
+                    board[ny][nx] = board[y][x] + 1
+                    queue.append((nx, ny))
+                
+        return board
+        
+    def print_board(self, board):
+        
         for y in reversed(range(self.size_y)):
             for x in range(self.size_x):
-                if distance[y][x] == -1:
+                if board[y][x] == -1:
                     print(" . ", end="")
                 else:
-                    print(f"{distance[y][x]:2d} ", end="")
+                    print(f"{board[y][x]:2d} ", end="")
             print()
-
+        
     
     def reset_board(self):
         
@@ -194,9 +182,9 @@ if __name__ == "__main__":
     #start_y = int(input("Entrer the y_coordinate of the starting position:").strip())
     #piece = str(input("Enter the name of the piece:").strip()) 
     
-    c = Chess(8, 8, 0, 0, "knight")
+    c = Chess(8, 8, 2, 0, "queen")
     
-    
-    c.print_board(c.BFS_min_moves_board())
+    c.BFS_chess_board()
+    c.print_board(c.BFS_chess_board())
     
     
