@@ -9,8 +9,12 @@ tiles are marked as -1.
 
 Milestone 1:
 
-Output the board for the minimum moves it will take for the chess pieces (pawn, bishop, knight.
-queen, rook) to reach a certain tile.
+The inputs are s1, s2, x1, y1, piece:
+- s1, s2 - horizontal size and vertical size of the board respectively.
+- x1, y1 - starting position of the piece (indices start at 0).
+- piece - name of the piece (pawn, knight, bishop, rook, queen).
+
+Output the whole board for the minimum moves it will take for the chess pieces to reach each tile.
 
 Disregard the rule wherein the pawn gets promoted or it can move two tiles at its first move.
 
