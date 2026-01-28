@@ -14,6 +14,4 @@ queen, rook) to reach a certain tile.
 
 Disregard the rule wherein the pawn gets promoted or it can move two tiles at its first move.
 
-No error checking, assume that the starting position is in bounds of the size of the board.
-
 Credits: Marcus Joseph Reyes and Ferdinand John Briones (EEE Professors)
