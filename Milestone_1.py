@@ -12,10 +12,6 @@ class Chess(object):
         self.start_y = start_y
         self.piece = piece
         
-    def valid_board(self, x, y):
-        
-        return 0 <= x < self.size_x and 0 <= y < self.size_y
-        
     def valid_moves(self, x, y):
         
         moves = []
@@ -150,8 +146,6 @@ class Chess(object):
             moves = self.valid_moves(x,y)
             
             for nx, ny in moves:
-            
-                
                     
                 if board[ny][nx] == -1:
                     board[ny][nx] = board[y][x] + 1
@@ -161,30 +155,23 @@ class Chess(object):
         
     def print_board(self, board):
         
+        #code to print the board nicely.
         for y in reversed(range(self.size_y)):
             for x in range(self.size_x):
-                if board[y][x] == -1:
-                    print(" . ", end="")
-                else:
-                    print(f"{board[y][x]:2d} ", end="")
+                print(f"{board[y][x]:2d} ", end="")
             print()
         
-    
-    def reset_board(self):
-        
-        return 0 
-    
 if __name__ == "__main__":
     
-    #size_x = int(input("Enter the horizontal size of the chess board:").strip())
-    #size_y = int(input("Enter the vertical size of the chess board:").strip())
-    #start_x = int(input("Entrer the x_coordinate of the starting position:").strip())
-    #start_y = int(input("Entrer the y_coordinate of the starting position:").strip())
-    #piece = str(input("Enter the name of the piece:").strip()) 
+    size_x = int(input("Enter the horizontal size of the chess board:").strip())
+    size_y = int(input("Enter the vertical size of the chess board:").strip())
+    start_x = int(input("Enter the x_coordinate of the starting position:").strip())
+    start_y = int(input("Enter the y_coordinate of the starting position:").strip())
+    piece = str(input("Enter the name of the piece:").strip()) 
     
-    c = Chess(8, 8, 2, 0, "queen")
+    c = Chess(size_x, size_y, start_x, start_y, piece)
     
-    c.BFS_chess_board()
-    c.print_board(c.BFS_chess_board())
+    b = c.BFS_chess_board()
+    c.print_board(b)
     
     
