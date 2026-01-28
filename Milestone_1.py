@@ -163,15 +163,64 @@ class Chess(object):
         
 if __name__ == "__main__":
     
-    size_x = int(input("Enter the horizontal size of the chess board:").strip())
-    size_y = int(input("Enter the vertical size of the chess board:").strip())
-    start_x = int(input("Enter the x_coordinate of the starting position:").strip())
-    start_y = int(input("Enter the y_coordinate of the starting position:").strip())
-    piece = str(input("Enter the name of the piece:").strip()) 
+        # Input horizontal size
+        while True:
+            try:
+                size_x = int(input("Enter horizontal size of the chess board: ").strip())
+                if size_x <= 0:
+                    print("Size must be a positive integer.")
+                    continue
+                break
+            except ValueError:
+                print("Please enter a valid integer.")
+
+        # Input vertical size
+        while True:
+            try:
+                size_y = int(input("Enter vertical size of the chess board: ").strip())
+                if size_y <= 0:
+                    print("Size must be a positive integer.")
+                    continue
+                break
+            except ValueError:
+                print("Please enter a valid integer.")
+
+        # Input starting x-coordinate
+        while True:
+            try:
+                start_x = int(input("Enter the x-coordinate of the starting position: ").strip())
+                if not (0 <= start_x < size_x):
+                    print(f"x-coordinate must be between 0 and {size_x - 1}.")
+                    continue
+                break
+            except ValueError:
+                print("Please enter a valid integer.")
+
+        # Input starting y-coordinate
+        while True:
+            try:
+                start_y = int(input("Enter the y-coordinate of the starting position: ").strip())
+                if not (0 <= start_y < size_y):
+                    print(f"y-coordinate must be between 0 and {size_y - 1}.")
+                    continue
+                break
+            except ValueError:
+                print("Please enter a valid integer.")
+
+        # Input piece
+        valid_pieces = {"pawn", "knight", "bishop", "rook", "queen", "king"}
+        while True:
+            piece = input("Enter the piece name: ").strip().lower()
+            if piece in valid_pieces:
+                break
+            print(f"Invalid piece. Choose from: {', '.join(valid_pieces)}")
+
+        c = Chess(size_x, size_y, start_x, start_y, piece)
+        b = c.BFS_chess_board()
+        c.print_board(b)
+
     
-    c = Chess(size_x, size_y, start_x, start_y, piece)
-    
-    b = c.BFS_chess_board()
-    c.print_board(b)
-    
+
+
+
     
