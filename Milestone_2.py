@@ -13,10 +13,6 @@ class Chess(object):
         self.piece = piece
         self.blocks = blocks
         
-    def blocking_pieces(self):
-        
-        return 0
-        
     def valid_moves(self, x, y):
         
         moves = []
