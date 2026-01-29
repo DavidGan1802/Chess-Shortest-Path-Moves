@@ -5,12 +5,17 @@ from collections import deque
 
 class Chess(object):
     
-    def __init__(self, size_x, size_y, start_x, start_y, piece):
+    def __init__(self, size_x, size_y, start_x, start_y, piece, blocks):
         self.size_x = size_x
         self.size_y = size_y
         self.start_x = start_x
         self.start_y = start_y
         self.piece = piece
+        self.blocks = blocks
+        
+    def blocking_pieces(self):
+        
+        return 0
         
     def valid_moves(self, x, y):
         
@@ -22,8 +27,9 @@ class Chess(object):
         if self.piece == "pawn":
             
             if 0 <= y + 1 < self.size_y:
-                
-                moves.append((x, y + 1))          
+
+                moves.append((x, y + 1))
+                        
         
         elif self.piece == "knight":
             
@@ -60,6 +66,10 @@ class Chess(object):
                 ny = y + dy
                 
                 while 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    
+                    if (nx, ny) in self.blocks:
+                        break
+                    
                     moves.append((nx, ny))
                     nx += dx
                     ny += dy           
@@ -78,6 +88,10 @@ class Chess(object):
                 ny = y + dy
                 
                 while 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    
+                    if (nx, ny) in self.blocks:
+                        break
+                    
                     moves.append((nx, ny))
                     nx += dx
                     ny += dy
@@ -101,6 +115,10 @@ class Chess(object):
                 ny = y + dy
                 
                 while 0 <= nx < self.size_x and 0 <= ny < self.size_y:
+                    
+                    if (nx, ny) in self.blocks:
+                        break
+                    
                     moves.append((nx, ny))
                     nx += dx
                     ny += dy                  
@@ -147,7 +165,7 @@ class Chess(object):
             
             for nx, ny in moves:
                     
-                if board[ny][nx] == -1:
+                if (board[ny][nx] == -1) and ((nx, ny) not in self.blocks):
                     board[ny][nx] = board[y][x] + 1
                     queue.append((nx, ny))
                 
@@ -158,7 +176,10 @@ class Chess(object):
         #code to print the board nicely.
         for y in reversed(range(self.size_y)):
             for x in range(self.size_x):
-                print(f"{board[y][x]:2d} ", end="")
+                if (x, y) in self.blocks:
+                    print(f"{'X':>2} ", end="")
+                else:
+                    print(f"{board[y][x]:2d} ", end="")
             print()
         
 if __name__ == "__main__":
@@ -171,9 +192,16 @@ if __name__ == "__main__":
 
     n = int(input("Enter the number of blocking pieces: ").strip())
     
+    blocks = []
+    
     for i in range(n):
-        input("Enter the coordinates of the blocking pieces: ").strip()
+        
+        pc_x = int(input(f"Enter the x-coordinate of the blocking piece {i + 1}: ").strip())
+        pc_y = int(input(f"Enter the y-coordinate of the blocking piece {i + 1}: ").strip())
 
-    c = Chess(size_x, size_y, start_x, start_y, piece)
+        blocks.append((pc_x, pc_y))
+        
+    c = Chess(size_x, size_y, start_x, start_y, piece, blocks)
     b = c.BFS_chess_board()
     c.print_board(b)
+    
