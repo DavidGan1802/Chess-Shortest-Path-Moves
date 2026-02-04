@@ -18,9 +18,12 @@ The inputs are s1, s2, x1, y1, piece:
 
 ## Milestone 2:
 
-The inputs are s1, s2, x1, y1, piece:
+The inputs are s1, s2, x1, y1, piece
+               
                n
+               
                n_1_1, n_1_2
+               
                n_2_1, n_2_2
 
 - n - number of blocking pieces. Exactly n lines should follow this
