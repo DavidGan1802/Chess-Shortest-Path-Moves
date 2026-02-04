@@ -14,9 +14,7 @@ The inputs are s1, s2, x1, y1, piece:
 - x1, y1 - starting position of the piece (indices start at 0).
 - piece - name of the piece (pawn, knight, bishop, rook, queen).
 
-Output the whole board for the minimum moves it will take for the chess pieces to reach each tile.
 
-Disregard the rule wherein the pawn gets promoted or it can move two tiles at its first move.
 
 ## Milestone 2:
 
@@ -27,5 +25,8 @@ The inputs are s1, s2, x1, y1, piece:
 
 - n - number of blocking pieces. Exactly n lines should follow this
 - n_i_1, n_i_2 - coordinates of the ith blocking piece. There should be n of these
+
+Output the whole board for the minimum moves it will take for the chess pieces to reach each tile.
+Disregard the rule wherein the pawn gets promoted or it can move two tiles at its first move.
 
 Credits: Marcus Joseph Reyes and Ferdinand John Briones (EEE Professors)
