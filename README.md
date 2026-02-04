@@ -36,4 +36,4 @@ Output the whole board for the minimum moves it will take for the chess pieces t
 Disregard the rule wherein the pawn gets promoted or it can move two tiles at its first move.
 
 
-Credits: Marcus Joseph Reyes and Ferdinand John Briones (EEE Professors)
+*Credits: Marcus Joseph Reyes and Ferdinand John Briones (EEE Professors)*
